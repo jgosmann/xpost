@@ -1,0 +1,222 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Jan Gosmann <jan@hyper-world.de>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://github.com/codeinvain/XpostCS\n"
+"POT-Creation-Date: 2009-10-04 20:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: xpost_options.php:64 xpost_options.php:77 xpost_options.php:318
+msgid "XML-RPC URL"
+msgstr ""
+
+#: xpost_options.php:67
+msgid "username"
+msgstr ""
+
+#: xpost_options.php:70
+msgid "password"
+msgstr ""
+
+#: xpost_options.php:73
+msgid "comment"
+msgstr ""
+
+#: xpost_options.php:85 xpost_post.php:124 xpost_widget.php:119
+msgid "XML-RPC connection to the blog failed"
+msgstr ""
+
+#: xpost_options.php:95
+msgid "XML-RPC request returned no blogs."
+msgstr ""
+
+#: xpost_options.php:118
+msgid ""
+"Error while inserting the blog &quot;<a href=\"%1$s\">%2$s</a>&quot; (blog "
+"id: %3d) into the database."
+msgstr ""
+
+#: xpost_options.php:139
+msgid "Error while updating the blog."
+msgstr ""
+
+#: xpost_options.php:149
+#, php-format
+msgid "New blog has successfully been added."
+msgid_plural "%d new blogs have successfully been added."
+msgstr[0] ""
+msgstr[1] ""
+
+#: xpost_options.php:152
+msgid "Updated the blog."
+msgstr ""
+
+#: xpost_options.php:157
+msgid ""
+"The XML-RPC request did not return a blog with a matching ID. Maybe the blog "
+"has been deleted?"
+msgstr ""
+
+#: xpost_options.php:169
+msgid "Could not load blog data to edit."
+msgstr ""
+
+#: xpost_options.php:186 xpost_options.php:190
+msgid "Error while deleting the blog from the database."
+msgstr ""
+
+#: xpost_options.php:197
+msgid "This plugin allows you to crosspost to other Wordpress blogs."
+msgstr ""
+
+#: xpost_options.php:208
+msgid "Error"
+msgstr ""
+
+#: xpost_options.php:224
+msgid "Your Blogs"
+msgstr ""
+
+#: xpost_options.php:229
+msgid "Add New Blog"
+msgstr ""
+
+#: xpost_options.php:233
+msgid "Add"
+msgstr ""
+
+#: xpost_options.php:239
+msgid "Update Blog"
+msgstr ""
+
+#: xpost_options.php:245
+msgid "Save Changes"
+msgstr ""
+
+#: xpost_options.php:258
+msgid "Selected by Default"
+msgstr ""
+
+#: xpost_options.php:259
+msgid "Blog Name"
+msgstr ""
+
+#: xpost_options.php:260
+msgid "Blog URL"
+msgstr ""
+
+#: xpost_options.php:261 xpost_options.php:324
+msgid "Username"
+msgstr ""
+
+#: xpost_options.php:262 xpost_options.php:342
+msgid "Comment"
+msgstr ""
+
+#: xpost_options.php:263 xpost_options.php:291
+msgid "Change"
+msgstr ""
+
+#: xpost_options.php:264 xpost_options.php:295
+msgid "Delete"
+msgstr ""
+
+#: xpost_options.php:284
+msgid "Yes"
+msgstr ""
+
+#: xpost_options.php:284
+msgid "No"
+msgstr ""
+
+#: xpost_options.php:321
+msgid ""
+"The URL of the xmlrpc.php file of the Blog. Usually this is <strong>http://"
+"blog-url/xmlrpc.php</strong> (of course you have to replace blog-url with "
+"the URL of your blog."
+msgstr ""
+
+#: xpost_options.php:327
+msgid "Username needed to login into the blog."
+msgstr ""
+
+#: xpost_options.php:330
+msgid "Password"
+msgstr ""
+
+#: xpost_options.php:333
+msgid "Password needed to login into the blog."
+msgstr ""
+
+#: xpost_options.php:336 xpost_options.php:337
+msgid "Default"
+msgstr ""
+
+#: xpost_options.php:339
+msgid "Crosspost to this blog by default."
+msgstr ""
+
+#: xpost_options.php:345
+msgid "Here you can enter anything you want."
+msgstr ""
+
+#: xpost_options.php:358
+#, php-format
+msgid "The %s cannot exceed the length of %u characters."
+msgstr ""
+
+#: xpost_options.php:368
+#, php-format
+msgid "Please enter a %s."
+msgstr ""
+
+#: xpost_post.php:70
+msgid "Crossposting is not possible for private posts."
+msgstr ""
+
+#: xpost_post.php:151
+msgid "Local database error. (Crosspost was created anyway.)"
+msgstr ""
+
+#: xpost_widget.php:51
+msgid "Crosspost to the following blogs:"
+msgstr ""
+
+#: xpost_widget.php:90
+msgid "Loading categories&nbsp;&hellip;"
+msgstr ""
+
+#: xpost_widget.php:109
+msgid "Could not load blog data."
+msgstr ""
+
+#. Plugin Name of an extension
+msgid "XpostCS"
+msgstr ""
+
+#. Plugin URI of an extension
+msgid "http://github.com/codeinvain/XpostCS"
+msgstr ""
+
+#. Description of an extension
+msgid "Allows to crosspost a post to other Wordpress blogs."
+msgstr ""
+
+#. Author of an extension
+msgid "Jan Gosmann <jan@hyper-world.de>"
+msgstr ""
+
+#. Author URI of an extension
+msgid "http://www.hyper-world.de"
+msgstr ""
