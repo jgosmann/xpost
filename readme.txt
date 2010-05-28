@@ -1,11 +1,11 @@
-=== Xpost ===
+=== XpostCS ===
 Contributors: blubbx
-Tags: wordpress, crosspost
+Tags: wordpress, crosspost,communityserver
 Requires at least: 2.5
 Tested up to: 2.8.5
 Stable tag: 1.0.3
 
-Xpost allows you to crosspost your posts to other Wordpress blogs.
+XpostCS allows you to crosspost your posts to Community Server.
 
 == Description ==
 
@@ -19,9 +19,9 @@ The Xpost (speak it: crosspost) plugin allows you to crosspost your posts to oth
 
 == Installation ==
 
-1. Upload the `xpost` folder to the `/wp-content/plugins/` directory
+1. Upload the `xpostcs` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Goto 'Settings', then 'Xpost' and add your Wordpress blogs.
+1. Goto 'Settings', then 'Xpost' and add your Community Server.
 1. That's it! When editing or creating a post you will find a Xpost widget in the sidebar where you can select the blogs to crosspost to and the categories.
 
 Please note that you have to activate posting via XML-RPC for the blogs you want to crosspost to. You can activate XML-RPC if you goto 'Settings' and then 'Writing' in the admin interface of each of those blogs.
