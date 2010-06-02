@@ -76,10 +76,11 @@ function xpost_crosspost( $localPostId ) {
 			$postData['title'] = trim  ($_POST['post_title']);
 			$permalink = get_permalink($localPostId);
 			$postData['description'] =strip_tags (  $_POST['content'] );
-			$postData['description'] = str_replace('/\[(.*?)\]/g',"",$postData['description']);
+			$postData['description'] = preg_replace('/\[(.*?)\]/',"",$postData['description']);
 			$postData['description']  = explode(' ',$postData['description'] );
 			$postData['description']  = array_slice ($postData['description'], 0, 80);
 			$postData['description']  = implode(' ',$postData['description']  );
+			$postData['description'] = preg_replace('/\n/',"<br/>",$postData['description']);
 			$postData['description'] .= "...<br/>";
 			$postData['description'] .= '<a href="'.$permalink.'"><b>read more</b></a>'; 
 			$postData['link'] = get_permalink($localPostId);
