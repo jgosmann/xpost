@@ -28,21 +28,26 @@ Original Author URI: http://www.hyper-world.de
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+/* I was told this include is necessary to be compatible with WP3 multiuser. */
+require_once ( ABSPATH . WPINC . '/pluggable.php' );
+
 require_once( 'xpost_config.php' );
 include_once( 'xpost_options.php' );
 include_once( 'xpost_widget.php' );
 include_once( 'xpost_post.php' );
+include_once( 'xpost_comments.php' );
+include_once( 'xpost_xmlrpc.php' );
 
 require_once( ABSPATH.'wp-admin/includes/upgrade.php' );
 
 register_activation_hook( __FILE__, 'install_xpost' );
 
+
 function install_xpost() {
 	global $wpdb;
    
-	if(    $wpdb->get_var( "show tables like '".XPOSTCS_TABLE_NAME."'" ) != XPOSTCS_TABLE_NAME
-		|| $wpdb->get_var( "show tables like '".XPOSTCS_POSTS_TABLE_NAME."'" ) != XPOSTCS_POSTS_TABLE_NAME ) {
-		$sql = 'CREATE TABLE '.XPOSTCS_TABLE_NAME.' (
+   
+	$sql = 'CREATE TABLE '.XPOSTCS_TABLE_NAME.' (
 			id       INT          NOT NULL AUTO_INCREMENT,
 			blogid   INT          NOT NULL,
 			selected BOOLEAN      NOT NULL,
@@ -50,12 +55,15 @@ function install_xpost() {
 			url      VARCHAR(128),
 			xmlrpc   VARCHAR(128) NOT NULL,
 			user     VARCHAR(64),
+		xpost_comments BOOLEAN NOT NULL DEFAULT false,
+		xpost_community_server BOOLEAN NOT NULL DEFAULT false,
+		xpost_summary_only BOOLEAN NOT NULL DEFAULT false,
 			password VARCHAR(64),
 			comment  VARCHAR(256),
 			PRIMARY KEY  ( id ) )';      
 		dbDelta( $sql );
       
-		$sql = 'CREATE TABLE '.XPOSTCS_POSTS_TABLE_NAME.' (
+	$sql = 'CREATE TABLE '.XPOSTCS_TABLE_NAME.' (
 			id            INT NOT NULL,
 			local_postid  INT NOT NULL,
 			remote_postid INT NOT NULL,

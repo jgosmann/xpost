@@ -3,7 +3,7 @@
  * The actual crossposting logic.
  */
 
-/*  Copyright 2009 Jan Gosmann  (email: jan@hyper-world.de)
+/*  Copyright 2009-2010 Jan Gosmann  (email: jan@hyper-world.de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-require_once( ABSPATH . WPINC .'/post.php' );
+require_once( ABSPATH . '/wp-includes/post.php' );
 
 add_action( 'save_post', 'xpost_crosspost' );
 
@@ -46,6 +46,12 @@ function xpost_crosspost( $localPostId ) {
 		return;
 	}
 
+	$commentToken = get_post_meta( $localPostId, '_xpost_comment_token', true );
+	if( empty( $commentToken ) ) {
+		$commentToken = md5( uniqid( mt_rand(), true ) );
+		update_post_meta( $localPostId, '_xpost_comment_token', $commentToken );
+	}
+
 	$sql = "SELECT id, blogid, xmlrpc, user, password FROM ".XPOSTCS_TABLE_NAME;
 	$blogs = $wpdb->get_results( $sql );
 
@@ -56,6 +62,10 @@ function xpost_crosspost( $localPostId ) {
 			update_post_meta( $localPostId, '_xpost_blog'.$blog->id, '0' );
 		} else {
 			update_post_meta( $localPostId, '_xpost_blog'.$blog->id, '1' );
+			
+			$xpost_comments = isset( $_POST['xpost_blog'.$blog->id.'_xpostComments'] );
+			update_post_meta( $localPostId, '_xpost_blog'.$blog->id.'_xpostComments', $xpost_comments ? '1' : '0' );
+			
 			if( $_POST['visibility'] == 'private' ) {
 				// We wait with this check until now, because we don't know
 				// wheter a blog has been selected for crossposting before this
@@ -73,8 +83,10 @@ function xpost_crosspost( $localPostId ) {
 				
 			/* Create post data struct to send */
 			$postData = array();
-			$postData['title'] = trim  ($_POST['post_title']);
-			$permalink = get_permalink($localPostId);
+			$postData['title'] = stripslashes( $_POST['post_title'] );
+			
+			$postData['description'] = stripslashes( $_POST['content'] );
+			if ($blog->xpost_summary_only){
 			$postData['description'] =strip_tags (  $_POST['content'] );
 			$postData['description'] = preg_replace('/\[(.*?)\]/',"",$postData['description']);
 			$postData['description']  = explode(' ',$postData['description'] );
@@ -83,28 +95,31 @@ function xpost_crosspost( $localPostId ) {
 			$postData['description'] = preg_replace('/\n/',"<br/>",$postData['description']);
 			$postData['description'] .= "...<br/>";
 			$postData['description'] .= '<a href="'.$permalink.'"><b>read more</b></a>'; 
+				$postData['description'] = stripslashes($postData['description']);
+			}
 			$postData['link'] = get_permalink($localPostId);
 			$postData['permalink'] = get_permalink($localPostId);
-			$postData['description'] .= '<META http-equiv="refresh" content="15;URL='.$permalink.'">';
-			$postData['mt_excerpt'] = $_POST['excerpt'];
+			$postData['mt_excerpt'] = stripslashes( $_POST['excerpt'] );
 			// Next line is not used, because I think it might be dangerous,
 			// because we don't know which slugs already exist in blog we post
 			// to.
-			//$postData['wp_slug'] = $_POST['name'];
-			$postData['mt_keywords'] = $_POST['tax_input']['post_tag'];
+			//$postData['wp_slug'] = stripslashes( $_POST['name'] );
+			$postData['mt_keywords'] = stripslashes( $_POST['tax_input']['post_tag'] );
 			$postData['mt_allow_comments'] = ($_POST['comment_status'] == 'open') ? 1 : 0;
 			$postData['mt_allow_pings'] = ($_POST['ping_status'] == 'open') ? 1 : 0;
 			if( $_POST['visibility'] == 'password' ) {
-				$postData['wp_password'] = $_POST['post_password'];
+				$postData['wp_password'] = stripslashes( $_POST['post_password'] );
 			}
 
 			$date = new DateTime();
 			$date->setDate( intval( $_POST['aa'] ), intval( $_POST['mm'] ), intval( $_POST['jj'] ) );
 			$date->setTime( intval( $_POST['hh'] ), intval( $_POST['mn'] ), intval( $_POST['ss'] ) );
-			// The next line only works with PHP 5.3.0 or newer.
-			// For backwards compatibility we will use the two line below for now.
-//			 $postData['dateCreated'] = new IXR_Date( $date->getTimestamp() );
-			$postData['dateCreated'] = new IXR_Date( DateTime_getTimestamp( $date ) );
+			// In hope to workaround a bug that post appear as scheduled, but do not publish
+			// (instead showing "missed schedule") we publish all posts scheduled for the next
+			// three minutes instantenous.
+			if( DateTime_getTimestamp( $date ) - DateTime_getTimestamp( new DateTime() ) > 3 * 60 ) {
+				$postData['date_created_gmt'] = new IXR_Date( DateTime_getTimestamp( $date ) );
+			}
 
 			/* Collect categories */
 			$min = intval( $_POST['xpost_blog'.$blog->id.'_min'] );
@@ -115,6 +130,16 @@ function xpost_crosspost( $localPostId ) {
 				}
 			}
 				
+			/* Set comments crossposting option */
+			$postData['custom_fields'][0]['key'] = '_xpost_commet_broadcast_url';
+			$postData['custom_fields'][0]['value'] = get_bloginfo( 'pingback_url' );
+			$postData['custom_fields'][1]['key'] = '_xpost_comment_exclude_id';
+			$postData['custom_fields'][1]['value'] = $blog->id;
+			$postData['custom_fields'][2]['key'] = '_xpost_original_postid';
+			$postData['custom_fields'][2]['value'] = $localPostId;
+			$postData['custom_fields'][3]['key'] = '_xpost_comment_token';
+			$postData['custom_fields'][3]['value'] = $commentToken;
+							
 			$publish = ($_POST['post_status'] == 'publish');
 
 			$updateDb = false;
@@ -128,7 +153,8 @@ function xpost_crosspost( $localPostId ) {
 				}
 			}
 			if( $createNew ) {
-				$client->query( 'metaWeblog.newPost', $blog->user, $blog->user, $blog->password, $postData, $publish );
+				$blogId = $blog->xpost_community_server ? $blog->user :$blog->blogid;
+				$client->query( 'metaWeblog.newPost', $blogId, $blog->user, $blog->password, $postData, $publish );
 			}
 
 			$response = $client->getResponse();

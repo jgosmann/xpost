@@ -3,7 +3,7 @@
  * Options page of the plugin.
  */
 
-/*  Copyright 2009 Jan Gosmann  (email: jan@hyper-world.de)
+/*  Copyright 2009-2010 Jan Gosmann  (email: jan@hyper-world.de)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -38,6 +38,9 @@ function xpost_options_page() {
 	$blogId = 0;
 	$user = $password = $comment = "";
 	$xmlrpc = "http://";
+	$xpost_comments = false;
+	$xpost_community_server = false;
+	$xpost_summary_only=false;
 	$selected = false;
 	
 	if( $_POST['updateBlog'] ) {
@@ -58,6 +61,10 @@ function xpost_options_page() {
 		$user = stripslashes( $_POST['user'] );
 		$password = stripslashes( $_POST['password'] );
 		$comment = stripslashes( $_POST['comment'] );
+		$xpost_comments = $_POST['xpost_comments'] ? true : false;
+		$xpost_community_server = $_POST['xpost_community_server'] ? true : false;
+		$xpost_summary_only = $_POST['xpost_summary_only'] ? true : false;
+		
 		$selected = $_POST['selected'] ? true : false;
 		
 		if( strlen( $xmlrpc ) > 128 ) {
@@ -79,8 +86,14 @@ function xpost_options_page() {
 		
 		/* Check whether XML-RPC connection works */
 		$client = @new IXR_Client( $xmlrpc );
+		if ($xpost_community_server){
 		$success = $client->query( 'blogger.getUsersBlogs',$user, $user, $password );
-		$response = $client->getResponse();	;
+			
+		}else{
+			$success = $client->query( 'wp.getUsersBlogs', $user, $password );
+		}
+		$response = $client->getResponse();	
+		
 		if ( !success || isset( $response['faultString'] ) ) {		
 			$error = __('XML-RPC connection to the blog failed', 'xpost');
 			if( isset( $response['faultString'] ) ){
@@ -98,8 +111,9 @@ function xpost_options_page() {
 		if( count( $errors ) == 0 ) {
 			$inserted = 0;
 			foreach( $response as $blog ) {
-				$insBlogId = $blog['blogId'];
-				$name = substr( $blog['blogName'], 0, 128 );
+				$insBlogId = $blog['blogId'] ? $blog['blogId'] : $blog['blogid'];
+				$name = substr(  html_entity_decode ($blog['blogName']), 0, 128 );
+				echo html_entity_decode ($blog['blogName']);
 				$url = substr( $blog['url'], 0, 128 );
 
 				if( $_POST['newBlog'] ) {
@@ -112,9 +126,13 @@ function xpost_options_page() {
 							'xmlrpc' => $xmlrpc,
 							'user' => $user,
 							'password' => $password,
+							'xpost_comments' => $xpost_comments,
+							'xpost_community_server' => $xpost_community_server,
+							'xpost_summary_only' => $xpost_summary_only,
 							'comment' => $comment ),
-						array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s' ) );
+						array( '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%d','%s' ) );
 					if( $rowsAffected <= 0 ) {
+						
 						$errors[] = sprintf( __('Error while inserting the blog &quot;<a href="%1$s">%2$s</a>&quot; (blog id: %3d) into the database.', 'xpost'), $url, $name, $blogId );					
 					} else {
 						++$inserted;
@@ -129,12 +147,15 @@ function xpost_options_page() {
 								'xmlrpc' => $xmlrpc,
 								'user' => $user,
 								'password' => $password,
+								'xpost_comments' => $xpost_comments,
+								'xpost_community_server' => $xpost_community_server,
+								'xpost_summary_only' => $xpost_summary_only,
 								'comment' => $comment ),
 							array(
 								'id' => $id,
 								'blogid' => $blogId ),
-							array( '%d', '%s', '%s', '%s', '%s', '%s', '%s' ),
-							array( '%d', '%d' ) );
+							array( '%d', '%s', '%s', '%s', '%s', '%s','%d', '%d', '%d', '%s' ),
+							array( '%d', '%s' ) );
 						if( $rowsAffected <= 0 ) {
 							$errors[] = __('Error while updating the blog.', 'xpost');
 						} else {
@@ -163,7 +184,7 @@ function xpost_options_page() {
 		}					
 	} else if( $_POST['changeBlog'] ) {
 		$id = intval( $_POST['id'] );
-		$sql = "SELECT blogid, xmlrpc, user, password, comment, selected FROM ".XPOSTCS_TABLE_NAME." WHERE id = $id";
+		$sql = "SELECT blogid, xmlrpc, user, password, xpost_comments,xpost_community_server,xpost_summary_only, comment, selected FROM ".XPOSTCS_TABLE_NAME." WHERE id = $id";
 		$blog = $wpdb->get_row( $sql );
 		if( empty( $blog ) ) {
 			$errors[] = __('Could not load blog data to edit.', 'xpost');
@@ -171,11 +192,17 @@ function xpost_options_page() {
 			$showBlogTable = false;
 			$showNewBlogForm = false;
 			$showUpdateBlogForm = true;
-
+			if ($blog->xpost_community_server){
 			$blogid = $blog->user;
+			}else{
+				$blogid = $blog->blogid;
+			}
 			$xmlrpc = $blog->xmlrpc;
 			$user = $blog->user;
 			$password = $blog->password;
+			$xpost_comments = $blog->xpost_comments;
+			$xpost_community_server = $blog->xpost_community_server;
+			$xpost_summary_only = $blog->xpost_summary_only;
 			$comment = $blog->comment;
 			$selected = $blog->selected;
 		}
@@ -228,7 +255,7 @@ function xpost_options_page() {
 		<?php if( $showNewBlogForm ) { ?>
 			<h3><?php _e('Add New Blog', 'xpost'); ?></h3>
 			<form method="post" action="">
-				<?php echo_edit_blog_tbl( $xmlrpc, $user, $password, $selected, $comment ); ?>
+				<?php echo_edit_blog_tbl( $xmlrpc, $user, $password, $selected, $xpost_comments,$xpost_community_server,$xpost_summary_only, $comment ); ?>
 				<p class="submit">
 					<input id="newBlog" name="newBlog" type="submit" class="button-primary" value="<?php _e('Add', 'xpost') ?>" />
 				</p>
@@ -238,7 +265,7 @@ function xpost_options_page() {
 		<?php if( $showUpdateBlogForm ) { ?>
 			<h3><?php _e('Update Blog', 'xpost'); ?></h3>
 			<form method="post">
-				<?php echo_edit_blog_tbl( $xmlrpc, $user, $password, $selected, $comment ); ?>
+				<?php echo_edit_blog_tbl( $xmlrpc, $user, $password, $selected, $xpost_comments,$xpost_community_server,$xpost_summary_only, $comment ); ?>
 				<input name="id" type="hidden" value="<?php echo $id; ?>" />
 				<input name="blogid" type="hidden" value="<?php echo $blogid; ?>" />
 				<p class="submit">
@@ -259,6 +286,9 @@ function echo_blogs_tbl_th() { ?>
 		<th class="manage-column" scope="col"><?php _e('Blog Name', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Blog URL', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Username', 'xpost'); ?></th>
+		<th class="manage-column" scope="col"><?php _e('Crosspost comments by default', 'xpost'); ?></th>
+		<th class="manage-column" scope="col"><?php _e('Crosspost To Community Server', 'xpost'); ?></th>
+		<th class="manage-column" scope="col"><?php _e('Post Summary Only', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Comment', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Change', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Delete', 'xpost'); ?></th>
@@ -277,7 +307,7 @@ function echo_blogs_tbl() { ?>
 		<thead><?php echo_blogs_tbl_th(); ?></thead>
 		<tfoot><?php echo_blogs_tbl_th(); ?></tfoot>
 		<tbody><?php 
-			$sql = "SELECT id, selected, name, url, user, comment FROM ".XPOSTCS_TABLE_NAME;
+			$sql = "SELECT id, selected, name, url, user, xpost_comments,xpost_community_server,xpost_summary_only, comment FROM ".XPOSTCS_TABLE_NAME;
 			$blogs = $wpdb->get_results( $sql );
 			foreach( $blogs as $blog ) { ?>
 				<tr class="<?php echo $oddRow ? 'alternate' : ''; ?>">
@@ -285,6 +315,9 @@ function echo_blogs_tbl() { ?>
 					<td><?php echo esc_html($blog->name); ?></td>
 					<td><a href="<?php echo clean_url($blog->url, null, 'url'); ?>"><?php echo clean_url($blog->url); ?></a></td>
 					<td><?php echo esc_html($blog->user); ?></td>
+					<td><?php $blog->xpost_comments ? _e('Yes', 'xpost') : _e('No', 'xpost'); ?></td>
+					<td><?php $blog->xpost_community_server ? _e('Yes', 'xpost') : _e('No', 'xpost'); ?></td>
+					<td><?php $blog->xpost_summary_only ? _e('Yes', 'xpost') : _e('No', 'xpost'); ?></td>
 					<td><?php echo esc_html($blog->comment); ?></td>
 					<td><form method="post">
 						<input name="id" type="hidden" value="<?php echo $blog->id; ?>" />
@@ -312,7 +345,7 @@ function echo_blogs_tbl() { ?>
  * @param bool   $selected Selected for crosspost by default
  * @param string $comment  Comment
  */
-function echo_edit_blog_tbl( $xmlrpc, $user, $password, $selected, $comment ) { ?>
+function echo_edit_blog_tbl( $xmlrpc, $user, $password, $selected, $xpost_comments ,$xpost_community_server, $xpost_summary_only,$comment ) { ?>
 	<table class="form-table">
 		<tr valign="top">
 			<th scope="row"><label for="xmlrpc"><?php _e('XML-RPC URL', 'xpost'); ?></label></th>
@@ -338,6 +371,25 @@ function echo_edit_blog_tbl( $xmlrpc, $user, $password, $selected, $comment ) { 
 				<label for="selected"><input type="checkbox" id="selected" name="selected" <?php echo $selected ? 'checked="checked"' : ''; ?> />
 					<?php  _e('Crosspost to this blog by default.', 'xpost'); ?></label></fieldset></td>
 		</tr>
+		<tr valign="top">
+			<th scope="row"><?php _e('Comments', 'xpost'); ?></th>
+			<td><fieldset><legend class="screen-reader-text"><span><?php _e('Comments', 'xpost'); ?></span></legend>
+				<label for="xpost_comments"><input type="checkbox" id="xpost_comments" name="xpost_comments" <?php echo $xpost_comments ? 'checked="checked"' : ''; ?> />
+					<?php _e('Crosspost comments from and to this blog by default.', 'xpost'); ?></label></fieldset></td>
+		</tr>
+		<tr valign="top">
+			<th scope="row"><?php _e('CommunityServer', 'xpost'); ?></th>
+			<td><fieldset><legend class="screen-reader-text"><span><?php _e('CommunityServer', 'xpost'); ?></span></legend>
+				<label for="xpost_community_server"><input type="checkbox" id="xpost_community_server" name="xpost_community_server" <?php echo $xpost_community_server ? 'checked="checked"' : ''; ?> />
+					<?php _e('Crosspost To Community Server.', 'xpost'); ?></label></fieldset></td>
+		</tr>
+			<tr valign="top">
+			<th scope="row"><?php _e('SummaryOnly', 'xpost'); ?></th>
+			<td><fieldset><legend class="screen-reader-text"><span><?php _e('SummaryOnly', 'xpost'); ?></span></legend>
+				<label for="xpost_summary_only"><input type="checkbox" id="xpost_summary_only" name="xpost_summary_only" <?php echo $xpost_summary_only ? 'checked="checked"' : ''; ?> />
+					<?php _e('Crosspost Summary Only.', 'xpost'); ?></label></fieldset></td>
+		</tr>
+		 
 		<tr valign="top">
 			<th scope="row"><label for="comment"><?php _e('Comment', 'xpost'); ?></label></th>
 			<td><input type="text" id="comment" name="comment" value="<?php echo esc_html($comment); ?>" />

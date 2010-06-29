@@ -21,7 +21,7 @@
 */
 
 global $wpdb;
-define( 'XPOSTCS_DB_VERSION', '1.0.1' );
+define( 'XPOSTCS_DB_VERSION', '1.1.2' );
 define( 'XPOSTCS_TABLE_NAME', $wpdb->prefix.'xpostcs_blogs' );
 define( 'XPOSTCS_POSTS_TABLE_NAME', $wpdb->prefix.'xpostcs_posts' );
 
