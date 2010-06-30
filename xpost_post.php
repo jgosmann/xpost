@@ -52,7 +52,7 @@ function xpost_crosspost( $localPostId ) {
 		update_post_meta( $localPostId, '_xpost_comment_token', $commentToken );
 	}
 
-	$sql = "SELECT id, blogid, xmlrpc, user, password FROM ".XPOSTCS_TABLE_NAME;
+	$sql = "SELECT id, blogid, xmlrpc, user, xpost_summary_only, password FROM ".XPOSTCS_TABLE_NAME;
 	$blogs = $wpdb->get_results( $sql );
 
 	$errors = '';
