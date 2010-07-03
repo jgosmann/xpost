@@ -82,6 +82,7 @@ function xpost_crosspost( $localPostId ) {
 			$createNew = empty( $post );
 				
 			/* Create post data struct to send */
+			$permalink = get_permalink($localPostId);
 			$postData = array();
 			$postData['title'] = stripslashes( $_POST['post_title'] );
 			
@@ -94,11 +95,12 @@ function xpost_crosspost( $localPostId ) {
 			$postData['description']  = implode(' ',$postData['description']  );
 			$postData['description'] = preg_replace('/\n/',"<br/>",$postData['description']);
 			$postData['description'] .= "...<br/>";
+			
 			$postData['description'] .= '<a href="'.$permalink.'"><b>read more</b></a>'; 
 				$postData['description'] = stripslashes($postData['description']);
 			}
-			$postData['link'] = get_permalink($localPostId);
-			$postData['permalink'] = get_permalink($localPostId);
+			$postData['link'] = $permalink;
+			$postData['permalink'] = $permalink;
 			$postData['mt_excerpt'] = stripslashes( $_POST['excerpt'] );
 			// Next line is not used, because I think it might be dangerous,
 			// because we don't know which slugs already exist in blog we post

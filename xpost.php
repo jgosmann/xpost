@@ -71,7 +71,6 @@ function install_xpost() {
 		dbDelta( $sql );
  
       add_option( "xpost_db_version", XPOSTCS_DB_VERSION );
-   }
 }
 
 ?>
