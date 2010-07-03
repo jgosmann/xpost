@@ -40,30 +40,28 @@ include_once( 'xpost_xmlrpc.php' );
 
 require_once( ABSPATH.'wp-admin/includes/upgrade.php' );
 
-register_activation_hook( __FILE__, 'install_xpost' );
+register_activation_hook( __FILE__, 'install_xpost_cs' );
 
 
-function install_xpost() {
+function install_xpost_cs() {
 	global $wpdb;
-   
-   
 	$sql = 'CREATE TABLE '.XPOSTCS_TABLE_NAME.' (
-			id       INT          NOT NULL AUTO_INCREMENT,
-			blogid   INT          NOT NULL,
-			selected BOOLEAN      NOT NULL,
-			name     VARCHAR(128),
-			url      VARCHAR(128),
-			xmlrpc   VARCHAR(128) NOT NULL,
-			user     VARCHAR(64),
-		xpost_comments BOOLEAN NOT NULL DEFAULT false,
-		xpost_community_server BOOLEAN NOT NULL DEFAULT false,
-		xpost_summary_only BOOLEAN NOT NULL DEFAULT false,
-			password VARCHAR(64),
-			comment  VARCHAR(256),
+			id       				INT          	NOT NULL AUTO_INCREMENT,
+			blogid   				NVARCHAR(128)	NOT NULL,
+			selected 				BOOLEAN      	NOT NULL,
+			name     				NVARCHAR(128),
+			url      				NVARCHAR(128),
+			xmlrpc   				NVARCHAR(128) 	NOT NULL,
+			user     				NVARCHAR(64),
+			xpost_comments 			BOOLEAN 		NOT NULL DEFAULT false,
+			xpost_community_server 	BOOLEAN 		NOT NULL DEFAULT false,
+			xpost_summary_only 		BOOLEAN 		NOT NULL DEFAULT false,
+			password 				NVARCHAR(64),
+			comment  				NVARCHAR(256),
 			PRIMARY KEY  ( id ) )';      
 		dbDelta( $sql );
       
-	$sql = 'CREATE TABLE '.XPOSTCS_TABLE_NAME.' (
+	$sql = 'CREATE TABLE '.XPOSTCS_POSTS_TABLE_NAME.' (
 			id            INT NOT NULL,
 			local_postid  INT NOT NULL,
 			remote_postid INT NOT NULL,

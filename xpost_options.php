@@ -26,11 +26,12 @@ require_once( ABSPATH . WPINC .'/class-IXR.php' );
 add_action( 'admin_menu', 'xpost_plugin_menu' );
 
 function xpost_plugin_menu() {
-	add_options_page( 'Xpost Options', 'Xpost', 'manage_options', 'xpost.php', 'xpost_options_page');
+	add_options_page( 'Xpost Options', 'Xpost CS', 'manage_options', 'xpost.php', 'xpost_options_page');
 }
 
 function xpost_options_page() {
 	global $wpdb;
+	//$wpdb->show_errors();
 	$errors = array();
 	$messages = array();
 	
@@ -115,7 +116,6 @@ function xpost_options_page() {
 				$name = substr(  html_entity_decode ($blog['blogName']), 0, 128 );
 				echo html_entity_decode ($blog['blogName']);
 				$url = substr( $blog['url'], 0, 128 );
-
 				if( $_POST['newBlog'] ) {
 					$rowsAffected = $wpdb->insert( XPOSTCS_TABLE_NAME,
 						array(
@@ -132,8 +132,9 @@ function xpost_options_page() {
 							'comment' => $comment ),
 						array( '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%d', '%d','%s' ) );
 					if( $rowsAffected <= 0 ) {
-						
-						$errors[] = sprintf( __('Error while inserting the blog &quot;<a href="%1$s">%2$s</a>&quot; (blog id: %3d) into the database.', 'xpost'), $url, $name, $blogId );					
+						//print json_encode ($blog);
+						//print $wpdb->print_error();
+						$errors[] = sprintf( __('Error while inserting the blog &quot;<a href="%1$s">%2$s</a>&quot; (blog id: '.$insBlogId.') into the database.', 'xpost'), $url, $name );					
 					} else {
 						++$inserted;
 					}
