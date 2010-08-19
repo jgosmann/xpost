@@ -53,8 +53,8 @@ function install_xpost() {
 		xpost_comments 		BOOLEAN		NOT NULL DEFAULT false,
 		xpost_community_server 	BOOLEAN		NOT NULL DEFAULT false,
 		xpost_summary_only 	BOOLEAN 	NOT NULL DEFAULT false,
-		password 				NVARCHAR(64),
-		comment  				NVARCHAR(256),
+		password 		NVARCHAR(64),
+		comment  		NVARCHAR(256),
 		PRIMARY KEY  ( id ) )';      
 	dbDelta( $sql );
       

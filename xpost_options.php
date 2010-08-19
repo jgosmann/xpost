@@ -93,7 +93,7 @@ function xpost_options_page() {
 		}
 		$response = $client->getResponse();	
 		
-		if ( !success || isset( $response['faultString'] ) ) {		
+		if ( !$success || isset( $response['faultString'] ) ) {		
 			$error = __('XML-RPC connection to the blog failed', 'xpost');
 			if( isset( $response['faultString'] ) ){
 				$error .= ': ' . $response['faultString'];
@@ -224,10 +224,6 @@ function xpost_options_page() {
 		
 		/* Output errors */
 		if( count( $errors ) > 0 ) {
-			if( $addNewBlog ) {
-				$showBlogTable = false;
-			}
-			
 			?><div class="error"><ul><?php
 				foreach( $errors as $error ) {
 					?><li><strong><?php _e('Error', 'xpost'); ?></strong>: <?php echo $error; ?></li><?php
@@ -305,7 +301,7 @@ function echo_blogs_tbl() { ?>
 		<thead><?php echo_blogs_tbl_th(); ?></thead>
 		<tfoot><?php echo_blogs_tbl_th(); ?></tfoot>
 		<tbody><?php 
-			$sql = "SELECT id, selected, name, url, user, xpost_comments, xpost_community_server, xpost_summary_only, comment FROM ".XPOSTCS_TABLE_NAME;
+			$sql = "SELECT id, selected, name, url, user, xpost_comments, xpost_community_server, xpost_summary_only, comment FROM ".XPOST_TABLE_NAME;
 			$blogs = $wpdb->get_results( $sql );
 			foreach( $blogs as $blog ) { ?>
 				<tr class="<?php echo $oddRow ? 'alternate' : ''; ?>">
