@@ -96,7 +96,7 @@ function xpost_crosspost( $localPostId ) {
 				$postData['description'] = implode( ' ', $postData['description'] );
 				$postData['description'] = preg_replace( '/\n/', '<br/>', $postData['description'] );
 				$postData['description'] .= "...<br/>";
-				$postData['description'] .= '<a href="'.$permalink.'"><b>'._e('Read More').'</b></a>'; 
+				$postData['description'] .= '<a href="'.$permalink.'"><b>'.__('Read More', 'xpost').'</b></a>'; 
 			}
 			$postData['description'] = stripslashes( $postData['description'] );
 			$postData['link'] = $permalink;
