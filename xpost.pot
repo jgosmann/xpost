@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Xpost 1.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/xpost\n"
-"POT-Creation-Date: 2010-08-19 16:41+0200\n"
+"POT-Creation-Date: 2010-08-19 16:46+0200\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,12 +126,12 @@ msgstr ""
 msgid "Crosspost comments by default"
 msgstr ""
 
-#: xpost_options.php:284
-msgid "Crosspost To Community Server"
+#: xpost_options.php:284 xpost_options.php:378
+msgid "Community Server blog"
 msgstr ""
 
 #: xpost_options.php:285
-msgid "Post Summary Only"
+msgid "Summary Only"
 msgstr ""
 
 #: xpost_options.php:286 xpost_options.php:391
@@ -189,10 +189,6 @@ msgstr ""
 
 #: xpost_options.php:375
 msgid "Crosspost comments from and to this blog by default."
-msgstr ""
-
-#: xpost_options.php:378
-msgid "Community Server blog"
 msgstr ""
 
 #: xpost_options.php:379

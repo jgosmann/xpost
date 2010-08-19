@@ -281,8 +281,8 @@ function echo_blogs_tbl_th() { ?>
 		<th class="manage-column" scope="col"><?php _e('Blog URL', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Username', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Crosspost comments by default', 'xpost'); ?></th>
-		<th class="manage-column" scope="col"><?php _e('Crosspost To Community Server', 'xpost'); ?></th>
-		<th class="manage-column" scope="col"><?php _e('Post Summary Only', 'xpost'); ?></th>
+		<th class="manage-column" scope="col"><?php _e('Community Server blog', 'xpost'); ?></th>
+		<th class="manage-column" scope="col"><?php _e('Summary Only', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Comment', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Change', 'xpost'); ?></th>
 		<th class="manage-column" scope="col"><?php _e('Delete', 'xpost'); ?></th>
