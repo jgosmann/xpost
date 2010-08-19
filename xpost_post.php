@@ -114,12 +114,13 @@ function xpost_crosspost( $localPostId ) {
 			}
 
 			$date = new DateTime();
+			$date->setTimezone( new DateTimeZone('GMT') );
 			$date->setDate( intval( $_POST['aa'] ), intval( $_POST['mm'] ), intval( $_POST['jj'] ) );
-			$date->setTime( intval( $_POST['hh'] ), intval( $_POST['mn'] ), intval( $_POST['ss'] ) );
+			$date->setTime( intval( $_POST['hh'] - get_option('gmt_offset') ), intval( $_POST['mn'] ), intval( $_POST['ss'] ) );
 			// In hope to workaround a bug that post appear as scheduled, but do not publish
 			// (instead showing "missed schedule") we publish all posts scheduled for the next
 			// three minutes instantenous.
-			if( DateTime_getTimestamp( $date ) - DateTime_getTimestamp( new DateTime() ) > 3 * 60 ) {
+			if( abs( DateTime_getTimestamp( $date ) - DateTime_getTimestamp( new DateTime() ) ) > 3 * 60 ) {
 				$postData['date_created_gmt'] = new IXR_Date( DateTime_getTimestamp( $date ) );
 			}
 
