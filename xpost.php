@@ -2,8 +2,8 @@
 /*
 Plugin Name: Xpost
 Plugin URI: http://www.hyper-world.de/en/computer-2/xpost/
-Description: Allows to crosspost a post to other Wordpress blogs.
-Version: 1.1.1
+Description: Allows to crosspost a post to other Wordpress blogs and Community Server blogs.
+Version: 1.2
 Author: Jan Gosmann <jan@hyper-world.de>
 Author URI: http://www.hyper-world.de
 Text Domain: xpost
@@ -42,18 +42,19 @@ register_activation_hook( __FILE__, 'install_xpost' );
 
 function install_xpost() {
 	global $wpdb;
-   
 	$sql = 'CREATE TABLE '.XPOST_TABLE_NAME.' (
-		id       INT          NOT NULL AUTO_INCREMENT,
-		blogid   INT          NOT NULL,
-		selected BOOLEAN      NOT NULL,
-		name     VARCHAR(128),
-		url      VARCHAR(128),
-		xmlrpc   VARCHAR(128) NOT NULL,
-		user     VARCHAR(64),
-		xpost_comments BOOLEAN NOT NULL DEFAULT false,
-		password VARCHAR(64),
-		comment  VARCHAR(256),
+		id       		INT          	NOT NULL AUTO_INCREMENT,
+		blogid   		NVARCHAR(128)	NOT NULL,
+		selected 		BOOLEAN      	NOT NULL,
+		name     		NVARCHAR(128),
+		url      		NVARCHAR(128),
+		xmlrpc   		NVARCHAR(128) 	NOT NULL,
+		user     		NVARCHAR(64),
+		xpost_comments 		BOOLEAN		NOT NULL DEFAULT false,
+		xpost_community_server 	BOOLEAN		NOT NULL DEFAULT false,
+		xpost_summary_only 	BOOLEAN 	NOT NULL DEFAULT false,
+		password 				NVARCHAR(64),
+		comment  				NVARCHAR(256),
 		PRIMARY KEY  ( id ) )';      
 	dbDelta( $sql );
       

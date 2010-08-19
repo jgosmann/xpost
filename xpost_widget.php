@@ -117,7 +117,7 @@ function xpost_get_categories() {
 	$id = intval( $_POST['id'] );
 	$postId = intval( $_POST['postid'] );
 	
-	$sql = "SELECT blogid, xmlrpc, user, password FROM ".XPOST_TABLE_NAME." WHERE id = $id";
+	$sql = "SELECT blogid, xmlrpc, user, xpost_community_server, password FROM ".XPOST_TABLE_NAME." WHERE id = $id";
 	$blog = $wpdb->get_row( $sql );
 	
 	if( empty( $blog ) ) {
@@ -127,10 +127,100 @@ function xpost_get_categories() {
 		exit( -1 );
 	}
 
+	if( $blog->xpost_community_server ) {
+		return xpost_get_categories_cs($blog);
+	} else {
+		return xpost_get_categories_wp($blog);
+	}
+	
+}
+
+function xpost_get_categories_cs( $blog )
+{
+	global $wpdb;
+	$id = intval( $_POST['id'] );
+	
+
 	/* Fetch categories */
 	$client = @new IXR_Client( $blog->xmlrpc );
+	$success = $client->query( 'metaWeblog.getCategories',  $blog->user, $blog->user, $blog->password );
+	$response = $client->getResponse();	;
+	
+	if ( !$success || isset( $response['faultString'] ) ) {		
+		_e('XML-RPC connection to the blog failed', 'xpost');
+		if( !$success ) {
+			echo ': ' . $client->getErrorMessage();
+		} else if( isset( $response['faultString'] ) ){
+			echo ': ' . $response['faultString'];
+		} else {
+			echo '.';
+		}
+		exit( -1 );
+	}
+	
+	/* Fetch used categories */
+	$usedCats = array();	
+	$sql = "SELECT remote_postid FROM ".XPOST_POSTS_TABLE_NAME." WHERE id = $id AND local_postid = $postId";
+	$rpost = $wpdb->get_row( $sql );
+	if( isset( $rpost ) ) {
+		$success = $client->query( 'metaWeblog.getPost', $rpost->remote_postid, $blog->user, $blog->password );
+		$usedResponse = $client->getResponse();
+		if ( $success && isset( $usedResponse['categories'] ) ) {	
+			foreach( $usedResponse['categories'] as $category ) {
+				$usedCats[$category] = true;
+			}
+		}
+	}
+	
+	/* Build category tree */
+	$indexedCats = array();
+	$rootCats = array();
+	$minId = PHP_INT_MAX;
+	$maxId = 0;
+	foreach( $response as $category ) {
+		$catId = intval( $category['categoryid'] );
+		$parentId = intval( $category['parentId'] );
+		$name = esc_html( $category['title'] );
+		
+		$indexedCats[$catId]['name'] = $name;
+		$indexedCats[$catId]['selected'] = isset( $usedCats[$name] );
+		$indexedCats[$catId]['parentId'] = $parentId;
+		if( $parentId == 0 ) {
+			$rootCats[] = $catId;
+		} else {
+			$indexedCats[$parentId]['subCats'][] = $catId;
+		}
+		
+		if( $catId > $maxId ) {
+			$maxId = $catId;
+		}
+		if( $catId < $minId ) {
+			$minId = $catId;
+		}
+	}
+	
+	echo '<li style="display: none;">';
+	echo '<input type="hidden" id="xpost_blog'.$id.'_min" name="xpost_blog'.$id.'_min" value="'.$minId.'" />';
+	echo '<input type="hidden" id="xpost_blog'.$id.'_max" name="xpost_blog'.$id.'_max" value="'.$maxId.'" />';
+	echo '</li>';
+	
+	echo_category_tree( $indexedCats, $rootCats, $id );
+	
+	exit( 0 ); // This call prevents a 0 from being appended.
+}
+
+function xpost_get_categories_wp( $blog )
+{
+	global $wpdb;
+	$id = intval( $_POST['id'] );
+	$postId = intval( $_POST['postid'] );
+	
+	/* Fetch categories */
+	$client = @new IXR_Client( $blog->xmlrpc );
+	//echo json_encode($blog);
 	$success = $client->query( 'wp.getCategories', $blog->blogid, $blog->user, $blog->password );
 	$response = $client->getResponse();	;
+	
 	if ( !$success || isset( $response['faultString'] ) ) {		
 		_e('XML-RPC connection to the blog failed', 'xpost');
 		if( !$success ) {

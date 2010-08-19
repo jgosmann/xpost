@@ -1,11 +1,11 @@
 === Xpost ===
 Contributors: blubbx
-Tags: wordpress, crosspost
-Requires at least: 2.8
-Tested up to: 2.9.2
-Stable tag: 1.1.1
+Tags: wordpress, crosspost, communityserver
+Requires at least: 2.9
+Tested up to: 3
+Stable tag: 1.1.2
 
-Xpost allows you to crosspost your posts to other Wordpress blogs.
+Xpost allows you to crosspost your posts to other Wordpress blogs and to Community Server.
 
 == Description ==
 
@@ -26,7 +26,7 @@ Once you approve a comment in any of the blogs which are selected for crossposti
 
 1. Upload the `xpost` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Goto 'Settings', then 'Xpost' and add your Wordpress blogs.
+1. Goto 'Settings', then 'Xpost' and add your Wordpress and Community server blogs.
 1. That's it! When editing or creating a post you will find a Xpost widget in the sidebar where you can select the blogs to crosspost to and the categories.
 
 Please note that you have to activate posting via XML-RPC for the blogs you want to crosspost to. You can activate XML-RPC if you goto 'Settings' and then 'Writing' in the admin interface of each of those blogs.
@@ -45,6 +45,8 @@ There are two different cases:
 == Screenshots ==
 
 == Changelog ==
+= 1.2.0 =
+* Adding Community Server support
 
 = 1.1.1 =
 * Hopefully fixed bug with posts showing "missed schedule" instead of getting published.

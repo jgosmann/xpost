@@ -52,7 +52,7 @@ function xpost_crosspost( $localPostId ) {
 		update_post_meta( $localPostId, '_xpost_comment_token', $commentToken );
 	}
 
-	$sql = "SELECT id, blogid, xmlrpc, user, password FROM ".XPOST_TABLE_NAME;
+	$sql = "SELECT id, blogid, xmlrpc, user, xpost_summary_only, password FROM ".XPOST_TABLE_NAME;
 	$blogs = $wpdb->get_results( $sql );
 
 	$errors = '';
@@ -82,9 +82,25 @@ function xpost_crosspost( $localPostId ) {
 			$createNew = empty( $post );
 				
 			/* Create post data struct to send */
+			$permalink = get_permalink($localPostId);
 			$postData = array();
 			$postData['title'] = stripslashes( $_POST['post_title'] );
-			$postData['description'] = stripslashes( $_POST['content'] );
+			
+			if( !$blog->xpost_summary_only ) {
+				$postData['description'] = $_POST['content'];
+			} else {
+				$postData['description'] = strip_tags( $_POST['content'] );
+				$postData['description'] = preg_replace( '/\[(.*?)\]/', '', $postData['description'] );
+				$postData['description'] = explode( ' ', $postData['description'] );
+				$postData['description'] = array_slice( $postData['description'], 0, 80 );
+				$postData['description'] = implode( ' ', $postData['description'] );
+				$postData['description'] = preg_replace( '/\n/', '<br/>', $postData['description'] );
+				$postData['description'] .= "...<br/>";
+				$postData['description'] .= '<a href="'.$permalink.'"><b>'._e('Read More').'</b></a>'; 
+			}
+			$postData['description'] = stripslashes( $postData['description'] );
+			$postData['link'] = $permalink;
+			$postData['permalink'] = $permalink;
 			$postData['mt_excerpt'] = stripslashes( $_POST['excerpt'] );
 			// Next line is not used, because I think it might be dangerous,
 			// because we don't know which slugs already exist in blog we post
@@ -139,7 +155,8 @@ function xpost_crosspost( $localPostId ) {
 				}
 			}
 			if( $createNew ) {
-				$client->query( 'metaWeblog.newPost', $blog->blogid, $blog->user, $blog->password, $postData, $publish );
+				$blogId = $blog->xpost_community_server ? $blog->user :$blog->blogid;
+				$client->query( 'metaWeblog.newPost', $blogId, $blog->user, $blog->password, $postData, $publish );
 			}
 
 			$response = $client->getResponse();
@@ -150,7 +167,7 @@ function xpost_crosspost( $localPostId ) {
 				} else {
 					$error .= '.';
 				}
-				$errors .= '<li>'.$error.'</li>';
+				$errors .= '<li>'.$error.' --- '.$postData['title'].'</li>';
 			} else {
 				$rowsAffected = 0;
 				if( $updateDb ) {
