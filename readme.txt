@@ -2,25 +2,27 @@
 Contributors: blubbx
 Tags: wordpress, crosspost, communityserver
 Requires at least: 2.9
-Tested up to: 3
+Tested up to: 3.0.1
 Stable tag: 1.1.2
 
 Xpost allows you to crosspost your posts to other Wordpress blogs and to Community Server.
 
 == Description ==
 
-The Xpost (speak it: crosspost) plugin allows you to crosspost your posts to other Wordpress blogs via XML-RPC. Features include:
+The Xpost (speak it: crosspost) plugin allows you to crosspost your posts to other Wordpress blogs or Community Server blogs via XML-RPC. Features include:
 
 * The plugin keeps track of which post has been crossposted to which blog and can update the crossposted posts when changing the original posts.
 * If you save a draft this will be crossposted as draft. If you publish the draft you can publish it also on the crossposted blogs.
-* If protect a post with a password the crossposted posts will also be protected by a password.
-* You can select the categories which should be used for the crosspost whereby this categories will be fetched from the blog you crosspost to.
+* If you protect a post with a password the crossposted posts will also be protected by a password.
+* You can select the categories which should be used for the crosspost whereby these categories will be fetched from the blog you crosspost to.
 * Crossposting will crosspost of course the title and text of the post, but also the excerpt, tags, the scheduled date for publishing and whether to allow comments and ping backs.
 * Crossposting of comments (since version 1.1.0).
 
 Please note that you have to install Xpost on all blogs you want to crosspost comments to. You have also to activate posting via XML-RPC in all these blogs.
 
 Once you approve a comment in any of the blogs which are selected for crossposting comments it will be posted to all of these blogs. It will be immediatly approved in all these blogs.
+
+Please note that the support for crossposting to Community Server blogs is untested and may not include all of the features.
 
 == Installation ==
 
@@ -46,7 +48,11 @@ There are two different cases:
 
 == Changelog ==
 = 1.2.0 =
-* Adding Community Server support
+* Adding (untested) support for crossposting to Community Server blogs. Thanks to Daniel Cohen!
+* Ability to backdate posts when crossposting.
+* Hopefully the timezone confusion is fixed. Finally.
+* Fixed version number in admin panel.
+* Minor issues.
 
 = 1.1.1 =
 * Hopefully fixed bug with posts showing "missed schedule" instead of getting published.
@@ -77,6 +83,9 @@ There are two different cases:
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.2.0 =
+This version introduces crossposting to Community Server blogs. Because the database format changed you need do deactivate and reactivate the plugin when upgrading. If you use autoupdate this is done automatically.
 
 = 1.1.0 =
 This version introduces crossposting of comments. Because the database format changed you need do deactivate and reactivate the plugin when upgrading. If you use autoupdate this is done automatically.
