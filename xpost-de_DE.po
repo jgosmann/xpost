@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: xpost 1.1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/xpost\n"
-"POT-Creation-Date: 2010-08-19 16:41+0200\n"
+"POT-Creation-Date: 2010-08-19 16:49+0200\n"
 "PO-Revision-Date: 2009-10-04 20:37+00\n"
 "Last-Translator: Jan Gosmann <jan@hype-world.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,13 +130,13 @@ msgstr "Benutzername"
 msgid "Crosspost comments by default"
 msgstr "Standardmäßig Kommentare crossposten"
 
-#: xpost_options.php:284
-msgid "Crosspost To Community Server"
-msgstr ""
+#: xpost_options.php:284 xpost_options.php:378 xpost_options.php:379
+msgid "Community Server blog"
+msgstr "Community Server Blog"
 
 #: xpost_options.php:285
-msgid "Post Summary Only"
-msgstr ""
+msgid "Summary Only"
+msgstr "Nur Zusammenfassung"
 
 #: xpost_options.php:286 xpost_options.php:391
 msgid "Comment"
@@ -198,30 +198,20 @@ msgstr "Artikel-Kommentare"
 msgid "Crosspost comments from and to this blog by default."
 msgstr "Standardmäßig Kommentare zu und von diesem Blog crossposten."
 
-#: xpost_options.php:378
-msgid "Community Server blog"
-msgstr ""
-
-#: xpost_options.php:379
-msgid "CommunityServer"
-msgstr ""
-
 #: xpost_options.php:381
 msgid ""
 "Select this if the blog is a Community Server blog and not a Wordpress blog."
 msgstr ""
+"Diese Option wählen, wenn es sich um ein Community Server Blog und kein "
+"Wordpress Blog handelt."
 
-#: xpost_options.php:384
+#: xpost_options.php:384 xpost_options.php:385
 msgid "Summary only"
-msgstr ""
-
-#: xpost_options.php:385
-msgid "SummaryOnly"
-msgstr ""
+msgstr "Nur Zusammenfassung"
 
 #: xpost_options.php:387
 msgid "Crosspost only a 80 word summary with a read more link."
-msgstr ""
+msgstr "Nur eine Zusammenfassung von 80 Wörtern mit eine Weiterlesen-Link crossposten."
 
 #: xpost_options.php:394
 msgid "Here you can enter anything you want."
@@ -243,7 +233,7 @@ msgstr "Crossposting ist für private Artikel nicht möglich."
 
 #: xpost_post.php:99
 msgid "Read More"
-msgstr ""
+msgstr "Weiterlesen"
 
 #: xpost_post.php:192
 msgid "Local database error. (Crosspost was created anyway.)"
@@ -308,6 +298,8 @@ msgid ""
 "Allows to crosspost a post to other Wordpress blogs and Community Server "
 "blogs."
 msgstr ""
+"Erlaubt es Artikel zu anderen Wordpress-Blogs und Community-Server-Blogs "
+"cross zu posten."
 
 #. Author of the plugin/theme
 msgid "Jan Gosmann <jan@hyper-world.de>"
