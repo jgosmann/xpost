@@ -26,6 +26,8 @@ Please note that the support for crossposting to Community Server blogs is untes
 
 == Installation ==
 
+Make sure your webserver runs PHP version 5.2 or later. This plugin may not work with earlier versions.
+
 1. Upload the `xpost` folder to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Goto 'Settings', then 'Xpost' and add your Wordpress and Community server blogs.
@@ -43,6 +45,9 @@ If you want to crosspost comments you have to install the Xpost plugin on all Wo
 There are two different cases:
 1. A comment is posted and approved in the blog with the original post. In this case it is stored in the database to which blogs the post was crossposted. The Xpost plugin will then transmit the comment via XML-RPC to these blogs.
 2. A comment is posted and approved in a blog as response to a crosspost. In this case the Xpost plugin has stored the address of the blog containing the orginal post together with the crosspost. The comment will then be transmitted via XML-RPC to the original blog. The Xpost plugin in the original blog know to which other blogs the comment has to be posted and does so via XML-RPC.
+
+= I want to contribute. How can I do this? =
+The plugin is hosted on [gitorious.org](http://gitorious.org/xpost "http://gitorious.org/xpost"). You may create a clone of the repository, make your changes and request a merge afterwards.
 
 == Screenshots ==
 
