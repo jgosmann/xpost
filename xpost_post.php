@@ -142,6 +142,8 @@ function xpost_crosspost( $localPostId ) {
 			$postData['custom_fields'][2]['value'] = $localPostId;
 			$postData['custom_fields'][3]['key'] = '_xpost_comment_token';
 			$postData['custom_fields'][3]['value'] = $commentToken;
+			$postData['custom_fields'][4]['key'] = 'xpost_origin_url';
+			$postData['custom_fields'][4]['value'] = get_bloginfo( 'url' );
 							
 			$publish = ($_POST['post_status'] == 'publish');
 			
