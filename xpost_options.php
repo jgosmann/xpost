@@ -375,16 +375,16 @@ function echo_edit_blog_tbl( $xmlrpc, $user, $password, $selected, $xpost_commen
 					<?php _e('Crosspost comments from and to this blog by default.', 'xpost'); ?></label></fieldset></td>
 		</tr>
 		<tr valign="top">
-			<th scope="row"><?php _e('CommunityServer', 'xpost'); ?></th>
+			<th scope="row"><?php _e('Community Server blog', 'xpost'); ?></th>
 			<td><fieldset><legend class="screen-reader-text"><span><?php _e('CommunityServer', 'xpost'); ?></span></legend>
 				<label for="xpost_community_server"><input type="checkbox" id="xpost_community_server" name="xpost_community_server" <?php echo $xpost_community_server ? 'checked="checked"' : ''; ?> />
-					<?php _e('Crosspost To Community Server.', 'xpost'); ?></label></fieldset></td>
+					<?php _e('Select this if the blog is a Community Server blog and not a Wordpress blog.', 'xpost'); ?></label></fieldset></td>
 		</tr>
 			<tr valign="top">
-			<th scope="row"><?php _e('SummaryOnly', 'xpost'); ?></th>
+			<th scope="row"><?php _e('Summary only', 'xpost'); ?></th>
 			<td><fieldset><legend class="screen-reader-text"><span><?php _e('SummaryOnly', 'xpost'); ?></span></legend>
 				<label for="xpost_summary_only"><input type="checkbox" id="xpost_summary_only" name="xpost_summary_only" <?php echo $xpost_summary_only ? 'checked="checked"' : ''; ?> />
-					<?php _e('Crosspost Summary Only.', 'xpost'); ?></label></fieldset></td>
+					<?php _e('Crosspost only a 80 word summary with a read more link.', 'xpost'); ?></label></fieldset></td>
 		</tr>
 		 
 		<tr valign="top">
