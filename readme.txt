@@ -3,7 +3,7 @@ Contributors: blubbx
 Tags: wordpress, crosspost, communityserver
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 
 Xpost allows you to crosspost your posts to other Wordpress blogs and to Community Server.
 
