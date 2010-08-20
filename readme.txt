@@ -3,7 +3,7 @@ Contributors: blubbx
 Tags: wordpress, crosspost, communityserver
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 
 Xpost allows you to crosspost your posts to other Wordpress blogs and to Community Server.
 
@@ -52,6 +52,11 @@ The plugin is hosted on [gitorious.org](http://gitorious.org/xpost "http://gitor
 == Screenshots ==
 
 == Changelog ==
+= 1.2.1 =
+* Added a small plugin for the target blogs to display whether a post was crossposted from somewhere else. (This will only be displayed for newly crossposted posts. For posts crossposted with earlier version it will always say the post has not been crossposted.)
+* Fixed duplication of meta data of crossposted posts on an update.
+* Fixed error message which occured when deleting blogs.
+
 = 1.2.0 =
 * Adding (untested) support for crossposting to Community Server blogs. Thanks to Daniel Cohen!
 * Ability to backdate posts when crossposting.
