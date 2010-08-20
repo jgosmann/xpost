@@ -210,10 +210,6 @@ function xpost_options_page() {
 		if( $wpdb->query( $sql ) <= 0 ) {
 			$errors[] = __('Error while deleting the blog from the database.', 'xpost');
 		}
-		$sql = "DELETE FROM ".XPOST_POSTS_TABLE_NAME." WHERE id = $id";
-		if( $wpdb->query( $sql ) <= 0 ) {
-			$errors[] = __('Error while deleting the blog from the database.', 'xpost');
-		}
 	}
 	
 	?><div class="wrap">
