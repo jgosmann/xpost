@@ -110,7 +110,7 @@ function xpost_options_page() {
 		if( count( $errors ) == 0 ) {
 			$inserted = 0;
 			foreach( $response as $blog ) {
-				$insBlogId = $blog['blogId'] ? $blog['blogId'] : $blog['blogid']; // FIXME: There seems to be a typo at some other place
+				$insBlogId = $blog['blogId'] ? $blog['blogId'] : $blog['blogid'];
 				$name = substr(  html_entity_decode( $blog['blogName'] ), 0, 128 );
 				echo html_entity_decode ($blog['blogName']);
 				$url = substr( $blog['url'], 0, 128 );
