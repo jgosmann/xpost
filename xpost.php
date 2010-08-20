@@ -3,7 +3,7 @@
 Plugin Name: Xpost
 Plugin URI: http://www.hyper-world.de/en/computer-2/xpost/
 Description: Allows to crosspost a post to other Wordpress blogs and Community Server blogs.
-Version: 1.2
+Version: 1.2.1
 Author: Jan Gosmann <jan@hyper-world.de>
 Author URI: http://www.hyper-world.de
 Text Domain: xpost

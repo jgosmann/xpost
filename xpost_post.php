@@ -82,7 +82,7 @@ function xpost_crosspost( $localPostId ) {
 			$createNew = empty( $post );
 				
 			/* Create post data struct to send */
-			$permalink = get_permalink($localPostId);
+			$permalink = get_permalink( $localPostId );
 			$postData = array();
 			$postData['title'] = stripslashes( $_POST['post_title'] );
 			
@@ -134,16 +134,25 @@ function xpost_crosspost( $localPostId ) {
 			}
 			
 			/* Set comments crossposting option */
-			$postData['custom_fields'][0]['key'] = '_xpost_commet_broadcast_url';
-			$postData['custom_fields'][0]['value'] = get_bloginfo( 'pingback_url' );
-			$postData['custom_fields'][1]['key'] = '_xpost_comment_exclude_id';
-			$postData['custom_fields'][1]['value'] = $blog->id;
-			$postData['custom_fields'][2]['key'] = '_xpost_original_postid';
-			$postData['custom_fields'][2]['value'] = $localPostId;
-			$postData['custom_fields'][3]['key'] = '_xpost_comment_token';
-			$postData['custom_fields'][3]['value'] = $commentToken;
-			$postData['custom_fields'][4]['key'] = 'xpost_origin_url';
-			$postData['custom_fields'][4]['value'] = get_bloginfo( 'url' );
+			/* Only do this if a new post is created, because the XML-RPC interface
+			 * of Wordpress does not update these values, but always adds new ones.
+			 */
+			if( $createNew ) {
+				$postData['custom_fields'][0]['key']   = '_xpost_commet_broadcast_url';
+				$postData['custom_fields'][0]['value'] = get_bloginfo( 'pingback_url' );
+				$postData['custom_fields'][1]['key']   = '_xpost_comment_exclude_id';
+				$postData['custom_fields'][1]['value'] = $blog->id;
+				$postData['custom_fields'][2]['key']   = '_xpost_original_postid';
+				$postData['custom_fields'][2]['value'] = $localPostId;
+				$postData['custom_fields'][3]['key']   = '_xpost_comment_token';
+				$postData['custom_fields'][3]['value'] = $commentToken;
+				$postData['custom_fields'][4]['key']   = 'xpost_origin_url';
+				$postData['custom_fields'][4]['value'] = get_bloginfo( 'url' );
+				$postData['custom_fields'][5]['key']   = 'xpost_origin_name';
+				$postData['custom_fields'][5]['value'] = get_bloginfo( 'name' );
+				$postData['custom_fields'][6]['key']   = 'xpost_original_posturl';
+				$postData['custom_fields'][6]['value'] = $permalink;
+			}
 							
 			$publish = ($_POST['post_status'] == 'publish');
 			
