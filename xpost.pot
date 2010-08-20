@@ -1,4 +1,4 @@
-# Translation of the WordPress plugin Xpost 1.2 by Jan Gosmann <jan@hyper-world.de>.
+# Translation of the WordPress plugin Xpost 1.2.1 by Jan Gosmann <jan@hyper-world.de>.
 # Copyright (C) 2010 Jan Gosmann <jan@hyper-world.de>
 # This file is distributed under the same license as the Xpost package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Xpost 1.2\n"
+"Project-Id-Version: Xpost 1.2.1\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/xpost\n"
-"POT-Creation-Date: 2010-08-19 16:49+0200\n"
+"POT-Creation-Date: 2010-08-20 13:28+0200\n"
 "PO-Revision-Date: 2010-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: xpost_options.php:71 xpost_options.php:84 xpost_options.php:348
+#: xpost_options.php:71 xpost_options.php:84 xpost_options.php:344
 msgid "XML-RPC URL"
 msgstr ""
 
@@ -34,7 +34,7 @@ msgstr ""
 msgid "comment"
 msgstr ""
 
-#: xpost_options.php:97 xpost_post.php:165 xpost_widget.php:150
+#: xpost_options.php:97 xpost_post.php:176 xpost_widget.php:150
 #: xpost_widget.php:225
 msgid "XML-RPC connection to the blog failed"
 msgstr ""
@@ -74,146 +74,146 @@ msgstr ""
 msgid "Could not load blog data to edit."
 msgstr ""
 
-#: xpost_options.php:211 xpost_options.php:215
+#: xpost_options.php:211
 msgid "Error while deleting the blog from the database."
 msgstr ""
 
-#: xpost_options.php:222
+#: xpost_options.php:218
 msgid "This plugin allows you to crosspost to other Wordpress blogs."
 msgstr ""
 
-#: xpost_options.php:229
+#: xpost_options.php:225
 msgid "Error"
 msgstr ""
 
-#: xpost_options.php:245
+#: xpost_options.php:241
 msgid "Your Blogs"
 msgstr ""
 
-#: xpost_options.php:250
+#: xpost_options.php:246
 msgid "Add New Blog"
 msgstr ""
 
-#: xpost_options.php:254
+#: xpost_options.php:250
 msgid "Add"
 msgstr ""
 
-#: xpost_options.php:260
+#: xpost_options.php:256
 msgid "Update Blog"
 msgstr ""
 
-#: xpost_options.php:266
+#: xpost_options.php:262
 msgid "Save Changes"
 msgstr ""
 
-#: xpost_options.php:279
+#: xpost_options.php:275
 msgid "Selected by Default"
 msgstr ""
 
-#: xpost_options.php:280
+#: xpost_options.php:276
 msgid "Blog Name"
 msgstr ""
 
-#: xpost_options.php:281
+#: xpost_options.php:277
 msgid "Blog URL"
 msgstr ""
 
-#: xpost_options.php:282 xpost_options.php:354
+#: xpost_options.php:278 xpost_options.php:350
 msgid "Username"
 msgstr ""
 
-#: xpost_options.php:283
+#: xpost_options.php:279
 msgid "Crosspost comments by default"
 msgstr ""
 
-#: xpost_options.php:284 xpost_options.php:378 xpost_options.php:379
+#: xpost_options.php:280 xpost_options.php:374 xpost_options.php:375
 msgid "Community Server blog"
 msgstr ""
 
-#: xpost_options.php:285
+#: xpost_options.php:281
 msgid "Summary Only"
 msgstr ""
 
-#: xpost_options.php:286 xpost_options.php:391
+#: xpost_options.php:282 xpost_options.php:387
 msgid "Comment"
 msgstr ""
 
-#: xpost_options.php:287 xpost_options.php:318
+#: xpost_options.php:283 xpost_options.php:314
 msgid "Change"
 msgstr ""
 
-#: xpost_options.php:288 xpost_options.php:322
+#: xpost_options.php:284 xpost_options.php:318
 msgid "Delete"
 msgstr ""
 
-#: xpost_options.php:308 xpost_options.php:312 xpost_options.php:313
-#: xpost_options.php:314
+#: xpost_options.php:304 xpost_options.php:308 xpost_options.php:309
+#: xpost_options.php:310
 msgid "Yes"
 msgstr ""
 
-#: xpost_options.php:308 xpost_options.php:312 xpost_options.php:313
-#: xpost_options.php:314
+#: xpost_options.php:304 xpost_options.php:308 xpost_options.php:309
+#: xpost_options.php:310
 msgid "No"
 msgstr ""
 
-#: xpost_options.php:351
+#: xpost_options.php:347
 msgid ""
 "The URL of the xmlrpc.php file of the Blog. Usually this is <strong>http://"
 "blog-url/xmlrpc.php</strong> (of course you have to replace blog-url with "
 "the URL of your blog."
 msgstr ""
 
-#: xpost_options.php:357
+#: xpost_options.php:353
 msgid "Username needed to login into the blog."
 msgstr ""
 
-#: xpost_options.php:360
+#: xpost_options.php:356
 msgid "Password"
 msgstr ""
 
-#: xpost_options.php:363
+#: xpost_options.php:359
 msgid "Password needed to login into the blog."
 msgstr ""
 
-#: xpost_options.php:366 xpost_options.php:367
+#: xpost_options.php:362 xpost_options.php:363
 msgid "Default"
 msgstr ""
 
-#: xpost_options.php:369
+#: xpost_options.php:365
 msgid "Crosspost to this blog by default."
 msgstr ""
 
-#: xpost_options.php:372 xpost_options.php:373
+#: xpost_options.php:368 xpost_options.php:369
 msgid "Comments"
 msgstr ""
 
-#: xpost_options.php:375
+#: xpost_options.php:371
 msgid "Crosspost comments from and to this blog by default."
 msgstr ""
 
-#: xpost_options.php:381
+#: xpost_options.php:377
 msgid ""
 "Select this if the blog is a Community Server blog and not a Wordpress blog."
 msgstr ""
 
-#: xpost_options.php:384 xpost_options.php:385
+#: xpost_options.php:380 xpost_options.php:381
 msgid "Summary only"
 msgstr ""
 
-#: xpost_options.php:387
+#: xpost_options.php:383
 msgid "Crosspost only a 80 word summary with a read more link."
 msgstr ""
 
-#: xpost_options.php:394
+#: xpost_options.php:390
 msgid "Here you can enter anything you want."
 msgstr ""
 
-#: xpost_options.php:407
+#: xpost_options.php:403
 #, php-format
 msgid "The %s cannot exceed the length of %u characters."
 msgstr ""
 
-#: xpost_options.php:417
+#: xpost_options.php:413
 #, php-format
 msgid "Please enter a %s."
 msgstr ""
@@ -226,8 +226,19 @@ msgstr ""
 msgid "Read More"
 msgstr ""
 
-#: xpost_post.php:192
+#: xpost_post.php:203
 msgid "Local database error. (Crosspost was created anyway.)"
+msgstr ""
+
+#: xpost_target_widget.php:50
+msgid "This post is the original."
+msgstr ""
+
+#: xpost_target_widget.php:53
+#, php-format
+msgid ""
+"This is a crosspost. The <a href=\"%s\" title=\"%s\">original post</a> "
+"resides in %s."
 msgstr ""
 
 #: xpost_widget.php:51
