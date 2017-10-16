@@ -20,8 +20,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+include 'wordpress/wp-load.php';
+
 include_once(ABSPATH . WPINC . '/comment.php');
-include_once(ABSPATH . WPINC . '/class-IXR.php');
+require_once( ABSPATH . WPINC . '/class-IXR.php' );
+require_once ( ABSPATH . WPINC . '/class-wp-http-ixr-client.php');
 
 add_filter( 'xmlrpc_methods', 'xpost_add_xmlrpc_methods' );
 
@@ -90,7 +93,7 @@ class xpost_xmlrpc {
 				$sql = "SELECT blogid, xmlrpc, user, password FROM ".XPOST_TABLE_NAME." WHERE id = $blog->id";
 				$blogUserData = $wpdb->get_row( $sql );
 			
-				$client = new IXR_Client( $blogUserData->xmlrpc );
+				$client = new WP_HTTP_IXR_CLIENT( $blogUserData->xmlrpc );
 				$client->query( 'xpost.newComment', $blogUserData->blogid, $blogUserData->user, $blogUserData->password, $blog->remote_postid, $commentData );
 			}
 		}

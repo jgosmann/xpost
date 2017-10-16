@@ -20,8 +20,12 @@
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+include 'wordpress/wp-load.php';
+
 require_once( 'xpost_config.php' );
 require_once( ABSPATH . WPINC . '/class-IXR.php' );
+require_once ( ABSPATH . WPINC . '/class-wp-http-ixr-client.php');
+
 
 add_action( 'admin_menu', 'xpost_add_widget' );
 add_action( 'wp_ajax_xpost_get_categories', 'xpost_get_categories' );
@@ -142,7 +146,7 @@ function xpost_get_categories_cs( $blog )
 	
 
 	/* Fetch categories */
-	$client = @new IXR_Client( $blog->xmlrpc );
+	$client = @new WP_HTTP_IXR_CLIENT( $blog->xmlrpc );
 	$success = $client->query( 'metaWeblog.getCategories',  $blog->user, $blog->user, $blog->password );
 	$response = $client->getResponse();	;
 	
@@ -216,7 +220,7 @@ function xpost_get_categories_wp( $blog )
 	$postId = intval( $_POST['postid'] );
 	
 	/* Fetch categories */
-	$client = @new IXR_Client( $blog->xmlrpc );
+	$client = @new WP_HTTP_IXR_CLIENT( $blog->xmlrpc );
 	//echo json_encode($blog);
 	$success = $client->query( 'wp.getCategories', $blog->blogid, $blog->user, $blog->password );
 	$response = $client->getResponse();	;
