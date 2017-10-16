@@ -20,6 +20,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+include 'wordpress/wp-load.php';
+require_once ABSPATH . WPINC . '/class-IXR.php';
+require_once ABSPATH . WPINC . '/class-wp-http-ixr-client.php';
 require_once( ABSPATH . '/wp-includes/post.php' );
 
 add_action( 'save_post', 'xpost_crosspost' );
@@ -157,7 +160,7 @@ function xpost_crosspost( $localPostId ) {
 			$publish = ($_POST['post_status'] == 'publish');
 			
 			$updateDb = false;
-			$client = new IXR_Client( $blog->xmlrpc );
+			$client = new WP_HTTP_IXR_CLIENT( $blog->xmlrpc );
 			if( !$createNew ) {
 				$client->query( 'metaWeblog.editPost', $post->remote_postid, $blog->user, $blog->password, $postData, $publish );
 				$response = $client->getResponse();

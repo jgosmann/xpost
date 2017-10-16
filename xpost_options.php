@@ -19,9 +19,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+include 'wordpress/wp-load.php';
 
 require_once( 'xpost_config.php' );
 require_once( ABSPATH . WPINC . '/class-IXR.php' );
+require_once ( ABSPATH . WPINC . '/class-wp-http-ixr-client.php');
 
 add_action( 'admin_menu', 'xpost_plugin_menu' );
 
@@ -85,7 +87,7 @@ function xpost_options_page() {
 		}
 		
 		/* Check whether XML-RPC connection works */
-		$client = @new IXR_Client( $xmlrpc );
+		$client = @new WP_HTTP_IXR_CLIENT( $xmlrpc );
 		if( $xpost_community_server ) {
 			$success = $client->query( 'blogger.getUsersBlogs', $user, $user, $password );
 		} else {

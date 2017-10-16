@@ -19,9 +19,11 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
+include 'wordpress/wp-load.php';
 
 require_once( 'xpost_config.php' );
 require_once( ABSPATH . WPINC . '/class-IXR.php' );
+require_once ( ABSPATH . WPINC . '/class-wp-http-ixr-client.php');
 
 add_action( 'wp_set_comment_status', 'crosspost_comment', 10, 2 );
 add_action( 'comment_post', 'crosspost_fresh_comment', 10, 2 );
@@ -61,7 +63,7 @@ function crosspost_comment( $id, $approved ) {
 		$commentToken = get_post_meta( $comment->comment_post_ID, '_xpost_comment_token', true );
 		$excludeId = get_post_meta( $comment->comment_post_ID, '_xpost_comment_exclude_id', true );
 		$originalPost = get_post_meta( $comment->comment_post_ID, '_xpost_original_postid', true );
-		$client = new IXR_Client( $broadcastUrl );
+		$client = new WP_HTTP_IXR_CLIENT( $broadcastUrl );
 		$client->query( 'xpost.broadcastComment', $commentToken, $originalPost, $excludeId, $commentData );
 	}
 	
@@ -79,7 +81,7 @@ function crosspost_comment( $id, $approved ) {
 		$sql = "SELECT blogid, xmlrpc, user, password FROM ".XPOST_TABLE_NAME." WHERE id = $blog->id";
 		$blogUserData = $wpdb->get_row( $sql );
 		
-		$client = new IXR_Client( $blogUserData->xmlrpc );
+		$client = new WP_HTTP_IXR_CLIENT( $blogUserData->xmlrpc );
 		$client->query( 'xpost.newComment', $blogUserData->blogid, $blogUserData->user, $blogUserData->password, $blog->remote_postid, $commentData );
 	}
 }
